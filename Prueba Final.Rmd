@@ -15,7 +15,7 @@ datost<- datos #crear una nueva base de datos o data frame
 datost<- scale(datost, center= T, scale= T)
 datost<- as.data.frame(datost)
 ```
-#NORMALIDAD multivariante
+# NORMALIDAD multivariante
 H0: Normalidad multivariante
 H1: No normalidad multivariante
 confianza= 95%
@@ -84,9 +84,118 @@ fa.parallel(r, fm= "ml", n.obs = 30, ylabel = "E igenvalues")
 ```
 con el metodo de la maxima verosimilitud se recomienda extraer 0 factor
 
-## Metodo paralelo con  interacciones
+
+# Metodo de extraccion de factores
+## metodo de analisis de los componentes principales(ACP)
+acp<- principal(r, nfactors=1, rotate= "none")
 ```{r}
+library(psych)
+acp<- principal(r, nfactors=1, rotate= "none")
+acp
+```
+PC1: cargas factoriales de cada variable.
+h2: comunalidad (varianza comun explicada) edad es explicado en un 2,4% por el factor extraido. peso es explicada en un 33,62% por el factor extraido. partidos jugados es explicado en un 48,18%, lesiones  es explicado en un 25,29%, horas de entreno es explicado en un 14,69% y salario en un 49,06%.
+
+entre mas alta sea h2 es mejor el modelo. 0;1
+
+u2: especificidad(varianza no explicada). la edad no es explicada en un 97,58%, peso pierde un 66,37%, partidos jugados un 51,81%, lesiones un 74,70%, horas de entreno 85,30% y salario un 50,93%.
+
+ mientras mas pequeño sea la especificidad es mejor el modelo. 0;1
+ 
+ h2 + u2= 1
+ comunalidad + especificidad= 1
+ varianza explicada + varianza no explicada =1
+ 
+ ss loadings= 1.73 ( varianza explicada en valores absolutos)
+Proportion Var 29% (El % que la varianza explicada representa del total).
+
+lo "ideal" es que Proportion Var sea lo mas cercano a 1.
+RMSR=0.21 (raiz cuadrada media de los residuos)
+
+## metodo de los ejes principales o componentes principales iteradas (CPI)
+```{r}
+cpi<- fa(r, nfactors= 1, fm= "pa", rotate= "none", n.obs = 30)
+cpi
+```
+
+Proportion Var= 17%
+RSMR= 0.16
+
+## Metodo de maxima verosimilitud(MVE)
+```{r}
+mve<- fa(r, nfactors = 1, fm= "ml", rotate= "none", n.obs= 30)
+mve
+```
+
+Proportion Var= 22%
+RSMR= 0.17
+
+### Resumen
+ACP: var= 29%      RSMR= 0.21
+CPI: Var= 17%      RSMR= 0.16
+MVE: Var= 22%      RSMR= 0,17
+
+¿con cual nos quedamos?
+aquel modelo que tenga la proportion var mas alta y el RSMR mas pequeño.
+
+# REPRESENTACION GRAFICA DE LOS FACTORES EXTRAIDOS
+## Metodo de analisis de las componentes  pricipales(ACP)
 
 
+plot(acp, lables= row.names(r), cex=.7, ylim=c(-.8,.8))
+
+
+## Metodo de las componentes principales iterasas(CPI)
+
+plot(cpi, lables= row.names(r), cex=.7, ylim=c(-.8,.8))
+
+
+
+## Metodo de la maxima verosimilitud (MVE)
+
+plot(mve, lables= row.names(r), cex=1, ylim=c(-.8,.8))
+
+
+## estas graficas solo funcionan cyando hay 2 factores extraidos, en este caso de obtuvo 0 factores
+
+# Obtencion de las puntuaciones factoriales
+## Metodo de analisis de las componentes principales iteradas (ACP)
+```{r}
+acp1<- principal(datost[,2:7], nfactors = 1, rotate= "none", scores= T)
+acp1$scores
+puntuacionesfactoriales_acp<-acp1$scores
+puntuacionesfactoriales_acp<-as.data.frame(puntuacionesfactoriales_acp)
+```
+## METODO DE LAS COMPONENTES PRINCIPALES ITERADAS (CPI)
+```{r}
+cpi1<- fa(datost[,2:7], nfactors = 1, fm="pa", rotate= "none", n.obs=30, scores="regression")
+cpi1$scores
+puntfact_cpi<-cpi1$scores
+puntfact_cpi<-as.data.frame(puntfact_cpi)
+```
+## METODO DE LA MAXIMA VEROSIMILITUD
+```{r}
+mve1<- fa(datost[,2:7], nfactors = 1, fm="ml", rotate= "none", n.obs=30, scores="regression")
+mve1$scores
+puntfact_mve<-mve1$scores
+puntfact_mve<-as.data.frame(puntfact_mve)
+```
+
+# OBTENCION DE LOS FACTORES EXTRAIDOS
+```{r}
+factor.scores(r, acp, method = "Thurstone")
+```
+Z1=0,089edad+0,33 peso-0,40 partidos jugados-0,29 lesiones+0,22 horas de entreno+ 0,40 salario
+
+# AGREGAR FACTOR EXTRAIDO(PUNTUACIONES FACTORIALES)EN EL DATA FRAME ORIGINAL
+```{r}
+datos_puntuaciones<- c(datos, puntuacionesfactoriales_acp)
+datos_puntuaciones<- as.data.frame(datos_puntuaciones)
+
+```
+# GUARDAR EL DATA FRAME" DATOS_PUNTUACIONES"
+```{r}
+setwd("C:/Users/user/Desktop") #define donde guardaras tu archivo excel cvs
+write.table(datos_puntuaciones, file="encuesta.cvs", sep= ";", row.names=F, dec=",")
 ```
 

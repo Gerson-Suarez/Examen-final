@@ -19,10 +19,11 @@ datost<- scale(datost, center= T, scale= T)
 datost<- as.data.frame(datost)
 ```
 
-\#NORMALIDAD multivariante H0: Normalidad multivariante H1: No
-normalidad multivariante confianza= 95% Alfa= 5% = 0,05 P value &gt;
-alfa: no se rechaza la H0 (Normalidad) P value &lt; alfa: se rechaza la
-H0 (No normalidad)
+# NORMALIDAD multivariante
+
+H0: Normalidad multivariante H1: No normalidad multivariante confianza=
+95% Alfa= 5% = 0,05 P value &gt; alfa: no se rechaza la H0 (Normalidad)
+P value &lt; alfa: se rechaza la H0 (No normalidad)
 
 ``` r
 library(MVN)
@@ -288,6 +289,17 @@ fa.parallel(r, fm= "pc", n.obs = 30, ylabel = "E ingevalues")
 
     ## factor method not specified correctly, minimum residual (unweighted least squares  used
     ## factor method not specified correctly, minimum residual (unweighted least squares  used
+    ## factor method not specified correctly, minimum residual (unweighted least squares  used
+
+    ## Warning in fa.stats(r = r, f = f, phi = phi, n.obs = n.obs, np.obs = np.obs, :
+    ## The estimated weights for the factor scores are probably incorrect. Try a
+    ## different factor score estimation method.
+
+    ## Warning in fa.stats(r = r, f = f, phi = phi, n.obs = n.obs, np.obs = np.obs, :
+    ## An ultra-Heywood case was detected. Examine the results carefully
+
+    ## factor method not specified correctly, minimum residual (unweighted least squares  used
+    ## factor method not specified correctly, minimum residual (unweighted least squares  used
 
     ## Warning in fa.stats(r = r, f = f, phi = phi, n.obs = n.obs, np.obs = np.obs, :
     ## The estimated weights for the factor scores are probably incorrect. Try a
@@ -312,16 +324,24 @@ fa.parallel(r, fm= "pc", n.obs = 30, ylabel = "E ingevalues")
     ## The estimated weights for the factor scores are probably incorrect. Try a
     ## different factor score estimation method.
 
+    ## factor method not specified correctly, minimum residual (unweighted least squares  used
+
+    ## Warning in fa.stats(r = r, f = f, phi = phi, n.obs = n.obs, np.obs = np.obs, :
+    ## The estimated weights for the factor scores are probably incorrect. Try a
+    ## different factor score estimation method.
+
     ## Warning in fa.stats(r = r, f = f, phi = phi, n.obs = n.obs, np.obs = np.obs, :
     ## An ultra-Heywood case was detected. Examine the results carefully
 
     ## factor method not specified correctly, minimum residual (unweighted least squares  used
-    ## factor method not specified correctly, minimum residual (unweighted least squares  used
-    ## factor method not specified correctly, minimum residual (unweighted least squares  used
-    ## factor method not specified correctly, minimum residual (unweighted least squares  used
-    ## factor method not specified correctly, minimum residual (unweighted least squares  used
-    ## factor method not specified correctly, minimum residual (unweighted least squares  used
-    ## factor method not specified correctly, minimum residual (unweighted least squares  used
+
+    ## Warning in fa.stats(r = r, f = f, phi = phi, n.obs = n.obs, np.obs = np.obs, :
+    ## The estimated weights for the factor scores are probably incorrect. Try a
+    ## different factor score estimation method.
+
+    ## Warning in fa.stats(r = r, f = f, phi = phi, n.obs = n.obs, np.obs = np.obs, :
+    ## An ultra-Heywood case was detected. Examine the results carefully
+
     ## factor method not specified correctly, minimum residual (unweighted least squares  used
     ## factor method not specified correctly, minimum residual (unweighted least squares  used
     ## factor method not specified correctly, minimum residual (unweighted least squares  used
@@ -335,7 +355,29 @@ fa.parallel(r, fm= "pc", n.obs = 30, ylabel = "E ingevalues")
 
     ## factor method not specified correctly, minimum residual (unweighted least squares  used
     ## factor method not specified correctly, minimum residual (unweighted least squares  used
+
+    ## Warning in fa.stats(r = r, f = f, phi = phi, n.obs = n.obs, np.obs = np.obs, :
+    ## The estimated weights for the factor scores are probably incorrect. Try a
+    ## different factor score estimation method.
+
+    ## Warning in fa.stats(r = r, f = f, phi = phi, n.obs = n.obs, np.obs = np.obs, :
+    ## An ultra-Heywood case was detected. Examine the results carefully
+
     ## factor method not specified correctly, minimum residual (unweighted least squares  used
+
+    ## Warning in fa.stats(r = r, f = f, phi = phi, n.obs = n.obs, np.obs = np.obs, :
+    ## The estimated weights for the factor scores are probably incorrect. Try a
+    ## different factor score estimation method.
+
+    ## factor method not specified correctly, minimum residual (unweighted least squares  used
+    ## factor method not specified correctly, minimum residual (unweighted least squares  used
+
+    ## Warning in fa.stats(r = r, f = f, phi = phi, n.obs = n.obs, np.obs = np.obs, :
+    ## The estimated weights for the factor scores are probably incorrect. Try a
+    ## different factor score estimation method.
+
+    ## Warning in fa.stats(r = r, f = f, phi = phi, n.obs = n.obs, np.obs = np.obs, :
+    ## An ultra-Heywood case was detected. Examine the results carefully
 
 ![](Prueba-Final_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
@@ -356,4 +398,351 @@ fa.parallel(r, fm= "ml", n.obs = 30, ylabel = "E igenvalues")
 
 con el metodo de la maxima verosimilitud se recomienda extraer 0 factor
 
-## Metodo paralelo con interacciones
+# Metodo de extraccion de factores
+
+## metodo de analisis de los componentes principales(ACP)
+
+acp&lt;- principal(r, nfactors=1, rotate= “none”)
+
+``` r
+library(psych)
+acp<- principal(r, nfactors=1, rotate= "none")
+acp
+```
+
+    ## Principal Components Analysis
+    ## Call: principal(r = r, nfactors = 1, rotate = "none")
+    ## Standardized loadings (pattern matrix) based upon correlation matrix
+    ##                    PC1    h2   u2 com
+    ## edad              0.16 0.024 0.98   1
+    ## peso(Kg)          0.58 0.336 0.66   1
+    ## Partidos jugados -0.69 0.482 0.52   1
+    ## Lesiones         -0.50 0.253 0.75   1
+    ## Horas de entreno  0.38 0.147 0.85   1
+    ## salario(USD)      0.70 0.491 0.51   1
+    ## 
+    ##                 PC1
+    ## SS loadings    1.73
+    ## Proportion Var 0.29
+    ## 
+    ## Mean item complexity =  1
+    ## Test of the hypothesis that 1 component is sufficient.
+    ## 
+    ## The root mean square of the residuals (RMSR) is  0.21 
+    ## 
+    ## Fit based upon off diagonal values = 0.14
+
+PC1: cargas factoriales de cada variable. h2: comunalidad (varianza
+comun explicada) edad es explicado en un 2,4% por el factor extraido.
+peso es explicada en un 33,62% por el factor extraido. partidos jugados
+es explicado en un 48,18%, lesiones es explicado en un 25,29%, horas de
+entreno es explicado en un 14,69% y salario en un 49,06%.
+
+entre mas alta sea h2 es mejor el modelo. 0;1
+
+u2: especificidad(varianza no explicada). la edad no es explicada en un
+97,58%, peso pierde un 66,37%, partidos jugados un 51,81%, lesiones un
+74,70%, horas de entreno 85,30% y salario un 50,93%.
+
+mientras mas pequeño sea la especificidad es mejor el modelo. 0;1
+
+h2 + u2= 1 comunalidad + especificidad= 1 varianza explicada + varianza
+no explicada =1
+
+ss loadings= 1.73 ( varianza explicada en valores absolutos) Proportion
+Var 29% (El % que la varianza explicada representa del total).
+
+lo “ideal” es que Proportion Var sea lo mas cercano a 1. RMSR=0.21 (raiz
+cuadrada media de los residuos)
+
+## metodo de los ejes principales o componentes principales iteradas (CPI)
+
+``` r
+cpi<- fa(r, nfactors= 1, fm= "pa", rotate= "none", n.obs = 30)
+cpi
+```
+
+    ## Factor Analysis using method =  pa
+    ## Call: fa(r = r, nfactors = 1, n.obs = 30, rotate = "none", fm = "pa")
+    ## Standardized loadings (pattern matrix) based upon correlation matrix
+    ##                    PA1      h2   u2 com
+    ## edad              0.01 5.1e-05 1.00   1
+    ## peso(Kg)          0.34 1.2e-01 0.88   1
+    ## Partidos jugados -0.58 3.4e-01 0.66   1
+    ## Lesiones         -0.32 1.0e-01 0.90   1
+    ## Horas de entreno  0.20 4.0e-02 0.96   1
+    ## salario(USD)      0.65 4.3e-01 0.57   1
+    ## 
+    ##                 PA1
+    ## SS loadings    1.02
+    ## Proportion Var 0.17
+    ## 
+    ## Mean item complexity =  1
+    ## Test of the hypothesis that 1 factor is sufficient.
+    ## 
+    ## The degrees of freedom for the null model are  15  and the objective function was  0.98 with Chi Square of  25.69
+    ## The degrees of freedom for the model are 9  and the objective function was  0.67 
+    ## 
+    ## The root mean square of the residuals (RMSR) is  0.16 
+    ## The df corrected root mean square of the residuals is  0.21 
+    ## 
+    ## The harmonic number of observations is  30 with the empirical chi square  23.44  with prob <  0.0053 
+    ## The total number of observations was  30  with Likelihood Chi Square =  17.18  with prob <  0.046 
+    ## 
+    ## Tucker Lewis Index of factoring reliability =  -0.358
+    ## RMSEA index =  0.171  and the 90 % confidence intervals are  0.023 0.303
+    ## BIC =  -13.43
+    ## Fit based upon off diagonal values = 0.48
+    ## Measures of factor score adequacy             
+    ##                                                    PA1
+    ## Correlation of (regression) scores with factors   0.78
+    ## Multiple R square of scores with factors          0.61
+    ## Minimum correlation of possible factor scores     0.21
+
+Proportion Var= 17% RSMR= 0.16
+
+## Metodo de maxima verosimilitud(MVE)
+
+``` r
+mve<- fa(r, nfactors = 1, fm= "ml", rotate= "none", n.obs= 30)
+mve
+```
+
+    ## Factor Analysis using method =  ml
+    ## Call: fa(r = r, nfactors = 1, n.obs = 30, rotate = "none", fm = "ml")
+    ## Standardized loadings (pattern matrix) based upon correlation matrix
+    ##                    ML1      h2    u2 com
+    ## edad             -0.18 3.4e-02 0.966   1
+    ## peso(Kg)          0.27 7.2e-02 0.928   1
+    ## Partidos jugados -0.39 1.6e-01 0.844   1
+    ## Lesiones         -0.23 5.1e-02 0.949   1
+    ## Horas de entreno  0.00 2.3e-08 1.000   1
+    ## salario(USD)      1.00 1.0e+00 0.005   1
+    ## 
+    ##                 ML1
+    ## SS loadings    1.31
+    ## Proportion Var 0.22
+    ## 
+    ## Mean item complexity =  1
+    ## Test of the hypothesis that 1 factor is sufficient.
+    ## 
+    ## The degrees of freedom for the null model are  15  and the objective function was  0.98 with Chi Square of  25.69
+    ## The degrees of freedom for the model are 9  and the objective function was  0.65 
+    ## 
+    ## The root mean square of the residuals (RMSR) is  0.17 
+    ## The df corrected root mean square of the residuals is  0.22 
+    ## 
+    ## The harmonic number of observations is  30 with the empirical chi square  25.4  with prob <  0.0026 
+    ## The total number of observations was  30  with Likelihood Chi Square =  16.62  with prob <  0.055 
+    ## 
+    ## Tucker Lewis Index of factoring reliability =  -0.266
+    ## RMSEA index =  0.165  and the 90 % confidence intervals are  0 0.298
+    ## BIC =  -13.99
+    ## Fit based upon off diagonal values = 0.44
+    ## Measures of factor score adequacy             
+    ##                                                    ML1
+    ## Correlation of (regression) scores with factors   1.00
+    ## Multiple R square of scores with factors          1.00
+    ## Minimum correlation of possible factor scores     0.99
+
+Proportion Var= 22% RSMR= 0.17
+
+### Resumen
+
+ACP: var= 29% RSMR= 0.21 CPI: Var= 17% RSMR= 0.16 MVE: Var= 22% RSMR=
+0,17
+
+¿con cual nos quedamos? aquel modelo que tenga la proportion var mas
+alta y el RSMR mas pequeño.
+
+# REPRESENTACION GRAFICA DE LOS FACTORES EXTRAIDOS
+
+## Metodo de analisis de las componentes pricipales(ACP)
+
+plot(acp, lables= row.names(r), cex=.7, ylim=c(-.8,.8))
+
+## Metodo de las componentes principales iterasas(CPI)
+
+plot(cpi, lables= row.names(r), cex=.7, ylim=c(-.8,.8))
+
+## Metodo de la maxima verosimilitud (MVE)
+
+plot(mve, lables= row.names(r), cex=1, ylim=c(-.8,.8))
+
+## estas graficas solo funcionan cyando hay 2 factores extraidos, en este caso de obtuvo 0 factores
+
+# Obtencion de las puntuaciones factoriales
+
+## Metodo de analisis de las componentes principales iteradas (ACP)
+
+``` r
+acp1<- principal(datost[,2:7], nfactors = 1, rotate= "none", scores= T)
+acp1$scores
+```
+
+    ##               PC1
+    ##  [1,] -0.41493092
+    ##  [2,] -1.33434722
+    ##  [3,] -1.17581779
+    ##  [4,]  1.59504205
+    ##  [5,]  0.12515715
+    ##  [6,] -0.43780857
+    ##  [7,] -0.46887893
+    ##  [8,]  0.62807279
+    ##  [9,] -0.33378746
+    ## [10,] -2.27698741
+    ## [11,]  1.76692943
+    ## [12,]  0.54802994
+    ## [13,]  0.63148111
+    ## [14,]  0.41343222
+    ## [15,] -1.37836884
+    ## [16,] -0.99665999
+    ## [17,]  1.98039381
+    ## [18,]  1.01787118
+    ## [19,]  1.50380066
+    ## [20,] -1.09110961
+    ## [21,] -0.77941087
+    ## [22,] -0.12932246
+    ## [23,]  0.18691410
+    ## [24,]  0.28257310
+    ## [25,] -0.09643498
+    ## [26,] -0.74698876
+    ## [27,]  0.29675440
+    ## [28,]  0.53393157
+    ## [29,]  0.16711668
+    ## [30,] -0.01664639
+
+``` r
+puntuacionesfactoriales_acp<-acp1$scores
+puntuacionesfactoriales_acp<-as.data.frame(puntuacionesfactoriales_acp)
+```
+
+## METODO DE LAS COMPONENTES PRINCIPALES ITERADAS (CPI)
+
+``` r
+cpi1<- fa(datost[,2:7], nfactors = 1, fm="pa", rotate= "none", n.obs=30, scores="regression")
+cpi1$scores
+```
+
+    ##               PA1
+    ##  [1,] -0.26266471
+    ##  [2,] -1.33615009
+    ##  [3,] -0.92066542
+    ##  [4,]  1.31022310
+    ##  [5,]  0.06042560
+    ##  [6,] -0.20559017
+    ##  [7,] -0.32308294
+    ##  [8,]  0.71021510
+    ##  [9,] -0.15923143
+    ## [10,] -1.60192731
+    ## [11,]  1.36668644
+    ## [12,]  0.28587302
+    ## [13,]  0.78958630
+    ## [14,]  0.19872335
+    ## [15,] -0.99083641
+    ## [16,] -0.88282377
+    ## [17,]  1.35921364
+    ## [18,]  0.35978042
+    ## [19,]  0.87543745
+    ## [20,] -1.10265354
+    ## [21,] -0.47038895
+    ## [22,] -0.07328279
+    ## [23,]  0.41200565
+    ## [24,] -0.06023391
+    ## [25,] -0.22737300
+    ## [26,] -0.56774772
+    ## [27,]  0.33325660
+    ## [28,]  0.53143438
+    ## [29,] -0.06616649
+    ## [30,]  0.65795761
+
+``` r
+puntfact_cpi<-cpi1$scores
+puntfact_cpi<-as.data.frame(puntfact_cpi)
+```
+
+## METODO DE LA MAXIMA VEROSIMILITUD
+
+``` r
+mve1<- fa(datost[,2:7], nfactors = 1, fm="ml", rotate= "none", n.obs=30, scores="regression")
+mve1$scores
+```
+
+    ##               ML1
+    ##  [1,] -0.44222693
+    ##  [2,] -2.04632122
+    ##  [3,] -0.55226594
+    ##  [4,]  1.16727917
+    ##  [5,]  0.62717872
+    ##  [6,] -0.12398118
+    ##  [7,] -0.76174290
+    ##  [8,]  0.63050541
+    ##  [9,] -0.22851938
+    ## [10,] -1.51713735
+    ## [11,]  1.37671903
+    ## [12,] -0.33274987
+    ## [13,]  1.05558517
+    ## [14,]  0.19893004
+    ## [15,] -0.55183854
+    ## [16,] -1.29631530
+    ## [17,]  0.84812344
+    ## [18,] -0.75808954
+    ## [19,]  0.84219471
+    ## [20,] -1.83290556
+    ## [21,] -0.65592131
+    ## [22,]  0.52004418
+    ## [23,]  1.48150168
+    ## [24,]  0.40878495
+    ## [25,] -0.86627483
+    ## [26,] -0.01741188
+    ## [27,]  0.73517331
+    ## [28,]  0.30794281
+    ## [29,] -0.22996489
+    ## [30,]  2.01370400
+
+``` r
+puntfact_mve<-mve1$scores
+puntfact_mve<-as.data.frame(puntfact_mve)
+```
+
+# OBTENCION DE LOS FACTORES EXTRAIDOS
+
+``` r
+factor.scores(r, acp, method = "Thurstone")
+```
+
+    ## $scores
+    ## NULL
+    ## 
+    ## $weights
+    ##                          PC1
+    ## edad              0.08971433
+    ## peso(Kg)          0.33464119
+    ## Partidos jugados -0.40057861
+    ## Lesiones         -0.29026241
+    ## Horas de entreno  0.22122145
+    ## salario(USD)      0.40423930
+    ## 
+    ## $r.scores
+    ##     PC1
+    ## PC1   1
+    ## 
+    ## $R2
+    ## [1] 1
+
+Z1=0,089edad+0,33 peso-0,40 partidos jugados-0,29 lesiones+0,22 horas de
+entreno+ 0,40 salario
+
+# AGREGAR FACTOR EXTRAIDO(PUNTUACIONES FACTORIALES)EN EL DATA FRAME ORIGINAL
+
+``` r
+datos_puntuaciones<- c(datos, puntuacionesfactoriales_acp)
+datos_puntuaciones<- as.data.frame(datos_puntuaciones)
+```
+
+# GUARDAR EL DATA FRAME" DATOS\_PUNTUACIONES"
+
+``` r
+setwd("C:/Users/user/Desktop") #define donde guardaras tu archivo excel cvs
+write.table(datos_puntuaciones, file="encuesta.cvs", sep= ";", row.names=F, dec=",")
+```
