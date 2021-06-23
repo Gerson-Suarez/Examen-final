@@ -1,30 +1,92 @@
 ---
-title: "Untitled"
+title: "Examen Final"
 output: github_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+# Importamos tabla de datos
+```{r}
+library(readxl)
+datos<- read_excel("C:/Users/user/Desktop/af.xlsx")
+```
+# Tipificacion o estandarizacion de variables
+la tipificacion permite que todas las variables metricas gocen de una misma unidad de medida estadistica.
+```{r}
+datost<- datos #crear una nueva base de datos o data frame
+datost<- scale(datost, center= T, scale= T)
+datost<- as.data.frame(datost)
+```
+#NORMALIDAD multivariante
+H0: Normalidad multivariante
+H1: No normalidad multivariante
+confianza= 95%
+Alfa= 5% = 0,05
+P value > alfa: no se rechaza la H0 (Normalidad)
+P value < alfa: se rechaza la H0 (No normalidad)
+```{r}
+library(MVN)
+mvn(datost[2:7])
+```
+como el P value > alfa, no se rechaza la H0, por lo tanto, existe normalidad multivariante.
+
+# MATRIZ DE CORRELACIONES
+H0: correlacion = 0 (no hay correlacion)
+H1: correlacion diferente de 0 (si hay correlacion)
+
+Cuando no se rechaza H0, no se aplica AFE.
+se rehace H0, si para aplicar AFE.
+```{r}
+library(psych)
+corr.test(datost[,2:7])
+correlaciones<- corr.test(datost[,2:7]) # se crea la matriz de correlaciones
+correlaciones$r #matriz de correlaciones
+r <- as.matrix(correlaciones$r)
+```
+Alfa= 0,05
+P value > alfa: no se rechaza H0
+P value < alfa: se rechaza H0, estamos en esta situacion, por lo tanto, si es aplicable el analisis factorial Exploratorio
+
+# Indicadores de aplicabilidad del AFE (Bondad del ajuste)
+## contraste de esfericidad de Bartlett
+H0: las correlaciones teoricas entre cada par de variables es nulo
+H1: las correlaciones teoricas entre cada par de variables no es nulo
+
+P value > alfa: no se aplica el AFE (no se rechaza H0)
+P value < alfa: si se aplica el AFE (se rechaza H0)
+```{r}
+dim(datost) #tamaño de la muestra= 30 personas
+cortest.bartlett(r, n= 30)
+
+```
+como el P value es menor a alfa, se rechaza la H0, por lo tanto, las correlaciones teoricas entre cada par de variables es nulo, es decir, si es aplicable el analisis factorial exploratorio(AFE).
+
+## MEDIDA DE ADECUACION MUESTRAL DE KAISER, MEYER Y OKLIN (KMO)
+estudia variable por variable, si son o no aceptadas en el modelo para hacer AFE.(que variables elimino o mantengo)
+se mantiene una variable en el modelo, si el KMO es igual o mayor a 0,7.
+se elimina una variable del modelo, si el KMO es menor a 0,7
+```{r}
+KMO(r)
+```
+KMO= 0,37 el modelo es unacceptable
+```{r}
+fa.parallel(r, fm= "pa", n.obs = 30, ylabel = "E igenvalues")
+```
+con el metodo de los ejes principales se extraeria 0 factor
+## metodo de las componentes principales
+```{r}
+fa.parallel(r, fm= "pc", n.obs = 30, ylabel = "E ingevalues")
+
+```
+con el metodo de las componentes principales se recomienda extraer 0 factor
+
+## Metodo de la maxima verosimilitud
+```{r}
+fa.parallel(r, fm= "ml", n.obs = 30, ylabel = "E igenvalues")
+```
+con el metodo de la maxima verosimilitud se recomienda extraer 0 factor
+
+## Metodo paralelo con  interacciones
+```{r}
+
+
 ```
 
-## GitHub Documents
-
-This is an R Markdown format used for publishing markdown documents to GitHub. When you click the **Knit** button all R code chunks are run and a markdown file (.md) suitable for publishing to GitHub is generated.
-
-## Including Code
-
-You can include R code in the document as follows:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
